@@ -155,16 +155,17 @@ def main():
     # Create two columns for file uploads
     col1, col2 = st.columns(2)
     
+    # Around line 125 in your app.py file
     with col1:
-        st.subheader("📄 Upload Job Poster")
-        poster_file = st.file_uploader(
-            "Upload the job poster image",
-            type=['jpg', 'jpeg', 'png'],
-            help="Upload a clear image of the job posting"
-        )
-        
-        if poster_file:
-            st.image(poster_file, caption="Uploaded Job Poster", use_column_width=True)
+         st.subheader("📄 Upload Job Poster")
+         poster_file = st.file_uploader(
+         "Upload the job poster image",
+         type=['jpg', 'jpeg', 'png'],
+         help="Upload a clear image of the job posting"
+    )
+    
+    if poster_file:
+        st.image(poster_file, caption="Uploaded Job Poster", use_container_width=True)  # ← LINE 125
     
     with col2:
         st.subheader("📋 Upload Your Resume")
