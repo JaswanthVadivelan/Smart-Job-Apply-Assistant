@@ -1,172 +1,172 @@
-# 💼 Smart Job Apply Assistant
+💼 Smart Job Apply Assistant
 
 An AI-powered application that automates job applications by extracting information from job posters and resumes to generate professional application emails.
 
-## 🎯 Features
+🎯 Features
 
-- **📸 OCR Technology**: Extracts text from job poster images
-- **📧 Email Detection**: Automatically finds HR email addresses
-- **🎓 Resume Parsing**: Extracts your name and skills from PDF resumes
-- **✍️ Professional Email Generation**: Creates polished application emails
-- **💬 Interactive Chat**: Refine your email through natural conversation
-- **✏️ Direct Editing**: Edit the email manually or use chat
-- **↩️ Undo/Reset**: Revert changes anytime
-- **📋 Easy Copy**: One-click copy and download options
-- **🚀 Fast Processing**: Get results in seconds
+📸 OCR Technology: Extracts text from job poster images
 
-## 🛠️ Installation
+📧 Email Detection: Automatically finds HR email addresses
 
-### Prerequisites
+🎓 Resume Parsing: Extracts your name and skills from PDF resumes
 
-1. **Python 3.8 or higher**
-2. **Tesseract OCR** - Required for image text extraction
+✍️ Professional Email Generation: Creates polished application emails
 
-#### Installing Tesseract OCR
+✏️ Direct Editing: Edit the email manually
 
-**Windows:**
-1. Download from: https://github.com/UB-Mannheim/tesseract/wiki
-2. Install and add to PATH
-3. Default location: `C:\Program Files\Tesseract-OCR\tesseract.exe`
+↩️ Undo/Reset: Revert changes anytime
 
-**Mac:**
-```bash
-brew install tesseract
-```
+📋 Easy Copy: One-click copy and download options
 
-**Linux:**
-```bash
-sudo apt-get install tesseract-ocr
-```
+🚀 Fast Processing: Get results in seconds
 
-### Setup Steps
+🛠️ Installation
+Prerequisites
 
-1. **Clone or download this repository**
-```bash
-cd Smart_Job_Apply
-```
+Python 3.8 or higher
 
-2. **Create a virtual environment (recommended)**
-```bash
-python -m venv venv
-```
+Tesseract OCR - Required for image text extraction
 
-3. **Activate virtual environment**
+Installing Tesseract OCR
 
 Windows:
-```bash
+
+Download from: https://github.com/UB-Mannheim/tesseract/wiki
+
+Install and add to PATH
+
+Default location:
+
+C:\Program Files\Tesseract-OCR\tesseract.exe
+
+
+Mac:
+
+brew install tesseract
+
+
+Linux:
+
+sudo apt-get install tesseract-ocr
+
+Setup Steps (Without Docker)
+
+Clone or download this repository
+
+cd Smart_Job_Apply
+
+
+Create a virtual environment (recommended)
+
+python -m venv venv
+
+
+Activate virtual environment
+
+Windows:
+
 venv\Scripts\activate
-```
+
 
 Mac/Linux:
-```bash
+
 source venv/bin/activate
-```
 
-4. **Install dependencies**
-```bash
+
+Install dependencies
+
 pip install -r requirements.txt
-```
 
-5. **Configure Tesseract path (if needed)**
 
-If Tesseract is not in your PATH, add this line to `app.py` after imports:
-```python
+Configure Tesseract path (if needed)
+
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-```
 
-## 🚀 Usage
 
-1. **Start the application**
-```bash
+Run the application
+
 streamlit run app.py
-```
 
-2. **Open your browser** - The app will automatically open at `http://localhost:8501`
+🐳 Docker Setup (Recommended)
 
-3. **Upload files**:
-   - Upload a job poster image (JPG, PNG, JPEG)
-   - Upload your resume (PDF)
+You can run the entire app using Docker without worrying about dependencies.
 
-4. **Generate email**:
-   - Click "Generate Application Email"
-   - Wait for AI processing
-   - Copy the generated email
+1. Build Docker Image
+docker build -t smart-job-apply .
 
-5. **Refine with chat (optional)**:
-   - Use the chat feature to modify the email
-   - Try: "Make it more formal" or "Add my internship experience"
-   - Edit directly in the text area if preferred
-   - Use Undo/Reset buttons as needed
+2. Run Docker Container
+docker run -p 8501:8501 smart-job-apply
 
-6. **Send your application**:
-   - Copy the final email content
-   - Paste into Gmail/Outlook
-   - Attach your resume
-   - Send to the extracted HR email
 
-## 📁 Project Structure
+Then open your browser and go to:
 
-```
+http://localhost:8501
+
+3. Optional: Mount Local Folder (for development)
+docker run -p 8501:8501 -v .:/app smart-job-apply
+
+Example Dockerfile (already included)
+# Use official Python image
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy project files
+COPY . /app
+
+# Install system dependencies for Tesseract OCR
+RUN apt-get update && apt-get install -y tesseract-ocr libtesseract-dev && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose Streamlit port
+EXPOSE 8501
+
+# Run the Streamlit app
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+
+📁 Project Structure
 Smart_Job_Apply/
 │
 ├── app.py                 # Main Streamlit application
 ├── requirements.txt       # Python dependencies
-├── README.md             # This file
-└── .gitignore            # Git ignore file
-```
+├── Dockerfile             # For containerized setup
+├── README.md              # Project documentation
+└── .gitignore             # Git ignore file
 
-## 🔧 How It Works
+🔧 How It Works
 
-1. **Image Processing**: Uses Tesseract OCR to extract text from job posters
-2. **Email Extraction**: Regex patterns identify HR email addresses
-3. **Role Detection**: Keyword matching finds job titles
-4. **Resume Parsing**: PDFPlumber extracts name and skills from resume
-5. **Email Generation**: Professional templates create polished application emails
-6. **Output Display**: Shows extracted info and generated email with copy options
+Image Processing – Uses Tesseract OCR to extract text from job posters
 
-## ✍️ Email Generation
+Email Extraction – Regex identifies HR email addresses
 
-The application uses **professional email templates** for generating job applications:
-- Instant generation (no AI model loading)
-- Consistent, professional output
-- Customizable and reliable
-- Works offline
+Role Detection – Keyword matching finds job titles
 
-## 💬 Interactive Chat Feature
+Resume Parsing – PDFPlumber extracts name and skills
 
-**NEW!** Refine your email through natural conversation:
+Email Generation – Predefined templates create professional emails
 
-### What You Can Ask:
-- **"Make it more formal"** - Removes contractions, adds professional language
-- **"Make it shorter"** - Creates a concise version
-- **"Make it enthusiastic"** - Adds excitement and positive energy
-- **"Add my internship experience"** - Mentions internships
-- **"Make it longer"** - Adds more detail and context
-- **Custom requests** - Add any specific content you want
+Output Display – Shows extracted info and final email
 
-### Features:
-- ✏️ **Direct editing** in text area
-- ↩️ **Undo** to previous versions
-- 🔄 **Reset** to original email
-- 🗑️ **Clear chat** history
-- 📥 **Download** final version
+📝 Example Output
 
-See [CHAT_FEATURE_GUIDE.md](CHAT_FEATURE_GUIDE.md) for detailed examples!
+Extracted Information:
 
-## 📝 Example Output
+Name: Jaswanth Vadivelan
 
-**Extracted Information:**
-- Name: Jaswanth Vadivelan
-- Job Role: Software Developer
-- HR Email: hr@techfirm.com
+Job Role: Software Developer
 
-**Generated Email:**
-```
+HR Email: hr@techfirm.com
+
+Generated Email:
+
 Subject: Application for Software Developer Role
 
 Dear Hiring Manager,
 
-I am writing to express my interest in the Software Developer position at your organization. My name is Jaswanth Vadivelan, and I have experience and skills in Python, Java, Machine Learning.
+I am writing to express my interest in the Software Developer position at your organization. My name is Jaswanth Vadivelan, and I have experience and skills in Python, Java, and Machine Learning.
 
 I am confident that my background and enthusiasm make me a strong candidate for this role. Please find my resume attached for your review.
 
@@ -174,57 +174,44 @@ Thank you for considering my application. I look forward to the opportunity to d
 
 Best regards,
 Jaswanth Vadivelan
-```
 
-## 🚨 Troubleshooting
+🚨 Troubleshooting
+Common Issues
 
-### Common Issues
+1. Tesseract not found error
 
-**1. Tesseract not found error**
-- Ensure Tesseract is installed
-- Add Tesseract to system PATH
-- Or set path manually in `app.py`
+Ensure Tesseract is installed and added to PATH
 
-**2. App starts slowly**
-- First run may take a moment to load dependencies
-- Subsequent runs will be faster
-- Streamlit caches resources automatically
+Or manually set the path in app.py
 
-**3. Poor OCR results**
-- Use high-quality, clear images
-- Ensure good contrast and lighting
-- Avoid blurry or low-resolution posters
+2. Poor OCR results
 
-**4. No email detected**
-- Verify the poster contains an email
-- Check if email is clearly visible
-- Manually add email if needed
+Use clear, high-quality images
 
-## 🌟 Future Enhancements
+Avoid blurry or low-resolution posters
 
-- [ ] Multi-language support (Hindi, Tamil, etc.)
-- [ ] Tone selector (Formal, Casual, Internship)
-- [ ] Direct email sending via SMTP
-- [ ] Batch processing for multiple jobs
-- [ ] Custom email templates
-- [ ] Resume summary generation
+3. No email detected
 
-## 📄 License
+Verify that the poster includes an email address
+
+Add manually if not detected
+
+🌟 Future Enhancements
+
+ Multi-language support (Hindi, Tamil, etc.)
+
+ Tone selector (Formal, Casual, Internship)
+
+ Direct email sending via SMTP
+
+ Batch job poster processing
+
+ Custom email templates
+
+ Resume summary generation
+
+📄 License
 
 This project is open source and available for educational purposes.
 
-## 👨‍💻 Developer
-
-Created as a solution to help students streamline their job application process.
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-## 📞 Support
-
-If you encounter any issues or have questions, please create an issue in the repository.
-
----
-
-**Made with ❤️ to help students land their dream jobs!**
+Made with ❤️ to help students land their dream jobs!
